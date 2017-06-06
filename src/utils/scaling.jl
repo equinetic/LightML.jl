@@ -59,13 +59,13 @@ end
 
 # ++++++ Rescale +++++++
 
-type RescaleParams{T} <: ScalerParams
+type RescaleParams{T}
     xmin::T
     xmax::T
 end
 
 function RescaleScaler()::FeatureScaler
-    FeatureScaler(scalefun=rescale, params=RescaleParams)
+    FeatureScaler(rescale, RescaleParams)
 end
 
 """
@@ -76,15 +76,15 @@ end
 
 Scales feature to be between 0 and 1.
 """
-function rescale(X::Matrix, xmin, xmax)
+function rescale(X::AbstractVecOrMat, xmin, xmax)
     (X .- xmin) ./ (xmax .- xmin)
 end
 
-function rescale(X::Matrix, s::FeatureScaler)
+function rescale(X::AbstractVecOrMat, s::FeatureScaler)
     (X .- s.params[1]) ./ (s.params[2] .- s.params[1])
 end
 
-function rescale(X::Matrix)
+function rescale(X::AbstractVecOrMat)
     xmin = minimum(X)
     xmax = maximum(X)
     return xmin, xmax
@@ -93,12 +93,12 @@ end
 
 # ++++++ Unit Length +++++++
 
-type UnitLengthParams <: ScalerParams
+type UnitLengthParams
     euclidlength::Int
 end
 
 function UnitLengthScaler()::FeatureScaler
-    FeatureScaler(scalefun=unitlength, params=UnitLengthParams)
+    FeatureScaler(unitlength, UnitLengthParams)
 end
 
 """
@@ -109,14 +109,14 @@ end
 Divides feature(s) of `X` by the vector euclidean distance.
 """
 function unitlength(X::AbstractVecOrMat, euclidlength::Int)
-    x ./ euclidlength
+    X ./ euclidlength
 end
 
 function unitlength(X::AbstractVecOrMat, s::FeatureScaler)
-    x ./ s.params[1]
+    X ./ s.params[1]
 end
 
 function unitlength(X::AbstractVecOrMat)
-    euclidlength = size(m, 1)
+    euclidlength = size(X, 1)
     return euclidlength
 end
