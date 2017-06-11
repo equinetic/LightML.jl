@@ -104,8 +104,8 @@ export
 
     # src/utils/classification_eval.jl
     ## Types
-    ConfusionMatrix,
     ClassificationStatistics,
+    ConfusionMatrix,
 
     ## Classification Counts
     true_positives,
@@ -118,7 +118,8 @@ export
         fn,
 
     ## ROC Curve
-    roccurve,
+    ROCCurve,
+    roc,
 
     ## Classification Evaluation
     accuracy,
@@ -143,12 +144,13 @@ export
     true_negative_rate,
         spc,
         specificity,
+        tnr,
     true_positive_rate,
         recall,
         sensitivity,
         tpr,
 
-typealias Features Union{String, Real}
+#typealias Features Union{String, Real}
 
 
 #Supervised_learning
@@ -178,10 +180,12 @@ include("unsupervised_learning/spectralCluster.jl")
 include("unsupervised_learning/largeScaleSpectralClustering.jl")
 
 #Utils
-
-include("utils/utils.jl")
+include("utils/classification_eval.jl")
 include("utils/demo.jl")
-
+include("utils/eval.jl")
+include("utils/partitioning.jl")
+include("utils/scaling.jl")
+include("utils/utils.jl")
 
 
 

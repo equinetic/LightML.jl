@@ -9,45 +9,81 @@
 # ========================
 
 """
-`ClassificationStatistics`
+`ClassificationStatistics(actual, predicted)`
+
+Generates most of the classification statistics available
+in this package.
 """
 immutable ClassificationStatistics
     tp::Int
     fp::Int
     tn::Int
     fn::Int
-    ppv::AbstractFloat
-    npv::AbstractFloat
-    sensitivity::AbstractFloat
-    specificity::AbstractFloat
-    fpr::AbstractFloat
-    fnr::AbstractFloat
-    fdr::AbstractFloat
-    f1score::AbstractFloat
+
     accuracy::AbstractFloat
-    matthews_corrcoef::AbstractFloat
+    error::AbstractFloat
+    f1score::AbstractFloat
+    false_discovery_rate::AbstractFloat
+        fdr::AbstractFloat
+    false_negative_rate::AbstractFloat
+        fnr::AbstractFloat
+    false_positive_rate::AbstractFloat
+        fallout::AbstractFloat
+        fpr::AbstractFloat
     informedness::AbstractFloat
     markedness::AbstractFloat
+    matthews_corrcoef::AbstractFloat
+        mcc::AbstractFloat
+    negative_predictive_value::AbstractFloat
+        npv::AbstractFloat
+    positive_predictive_value::AbstractFloat
+        ppv::AbstractFloat
+        precision::AbstractFloat
+    true_negative_rate::AbstractFloat
+        spc::AbstractFloat
+        specificity::AbstractFloat
+        tnr::AbstractFloat
+    true_positive_rate::AbstractFloat
+        recall::AbstractFloat
+        sensitivity::AbstractFloat
+        tpr::AbstractFloat
+
+    #roc::Tuple{Vector{AbstractFloat}, Vector{AbstractFloat}}
 
     function ClassificationStatistics(actual, predicted)
-        tp = true_positives(actual, predicted)
-        fp = false_positives(actual, predicted)
-        tn = true_negatives(actual, predicted)
-        fn = false_negatives(actual, predicted)
-        ppv = positive_predictive_value(actual, predicted)
-        npv = negative_predictive_value(actual, predicted)
-        sensitivity = sensitivity(actual, predicted)
-        specificity = specificity(actual, predicted)
-        fpr = false_positive_rate(actual, predicted)
-        fnr = false_negative_rate(actual, predicted)
-        fdr = false_discovery_rate(actual, predicted)
-        f1score = f1score(actual, predicted)
-        acc = accuracy(actual, predicted)
-        mcc = matthews_corrcoef(actual, predicted)
-        informedness = informedness(actual, predicted)
-        markedness = markedness(actual, predicted)
-        new(tp, fp, tn, fn,ppv, npv, sense, spec, fpr,
-             fnr, fdr, f1, acc, mcc, inf, mark)
+        new(
+            true_positives(actual, predicted),
+            false_positives(actual, predicted),
+            true_negatives(actual, predicted),
+            false_negatives(actual, predicted),
+            accuracy(actual, predicted),
+            classification_error(actual, predicted),
+            f1score(actual, predicted),
+            fdr(actual, predicted),
+            fdr(actual, predicted),
+            fnr(actual, predicted),
+            fnr(actual, predicted),
+            fpr(actual, predicted),
+            fpr(actual, predicted),
+            fpr(actual, predicted),
+            informedness(actual, predicted),
+            markedness(actual, predicted),
+            mcc(actual, predicted),
+            mcc(actual, predicted),
+            npv(actual, predicted),
+            npv(actual, predicted),
+            ppv(actual, predicted),
+            ppv(actual, predicted),
+            ppv(actual, predicted),
+            tnr(actual, predicted),
+            tnr(actual, predicted),
+            tnr(actual, predicted),
+            tnr(actual, predicted),
+            tpr(actual, predicted),
+            tpr(actual, predicted),
+            tpr(actual, predicted),
+            tpr(actual, predicted)
+        )
     end
 end
 
@@ -67,6 +103,10 @@ immutable ConfusionMatrix
         fn = false_negatives(actual, predicted)
         new(tp, fp, tn, fn)
     end
+
+    function ConfusionMatrix(s::ClassificationStatistics)
+        new(s.tp, s.fp, s.tn, s.fn)
+    end
 end
 
 function Base.print(c::ConfusionMatrix)
@@ -75,66 +115,53 @@ function Base.print(c::ConfusionMatrix)
     println("- ", c.fp, " ", c.tn)
 end
 
-# ========================
-# Classification Counts
-# ========================
+# ==================================
+# Receiver Operating Characteristics
+# ==================================
 
 """
-`true_positives(actual, predicted)::Int`
+ROC Curve
+============
 
-Returns length of (y==1) ∩ (ŷ==1)
+
 """
-function true_positives(actual, predicted)::Int
-    return sum((actual .== 1) .& (predicted .== 1))
+immutable ROCCurve
+    charX::Function=false_positive_rate
+    charY::Function=true_positive_rate
+    x_vals::Vector{AbstractFloat}
+    y_vals::Vector{AbstractFloat}
+    xlabel::AbstractString
+    ylabel::AbstractString
+    desc::AbstractString
+
+    function ROCCurve(actual, yhat;
+                increment::AbstractFloat=.01,
+                charX::Function=false_positive_rate,
+                charY::Function=true_positive_rate)
+        cx, cy = roc(actual, yhat, charX=charX, charY=charY)
+        xl = string(:($charX)); yl = string(:($charY))
+        fundesc = string(yl, " ~ ", xl)
+        new(charX, charY, cx, cy, xl, yl, fundesc)
+    end
 end
 
-# See ?true_positives
-tp = true_positives
-
-"""
-`false_positives(actual, predicted)::Int`
-
-Returns length of (y==0) ∩ (ŷ==1)
-"""
-function false_positives(actual, predicted)::Int
-    return sum((predicted .== 1) .& (actual .== 0))
+function Plots.plot(r::ROCCurve, x...)
+    Plots.plot(r.x_vals, r.y_vals,
+        xlabel=r.xlabel,
+        ylabel=r.ylabel,
+        title=r.fundesc, x...)
 end
 
-# See ?false_positives
-fp = false_positives
-
-"""
-`true_negatives(actual, predicted)::Int`
-
-Returns length of (y==0) ∩ (ŷ==0)
-"""
-function true_negatives(actual, predicted)::Int
-    return sum((actual .== 0) .& (predicted .== 0))
+function Plots.scatter(r::ROCCurve, x...)
+    Plots.plot(r.x_vals, r.y_vals,
+        xlabel=r.xlabel,
+        ylabel=r.ylabel,
+        title=r.fundesc, x...)
 end
-
-# See ?true_negatives
-tn = true_negatives
-
-"""
-`false_negatives(actual, predicted)::Int`
-
-Returns length of (y==1) ∩ (ŷ==0)
-"""
-function false_negatives(actual, predicted)::Int
-    return sum((predicted .== 0) .& (actual .== 1))
-end
-
-# See ?false_negatives
-fn = false_negatives
-
-
-# ========================
-# ROC Curve
-# ========================
 
 """
 ```julia
-roccurve(
+roc(
     actual, ŷ;
     increment::AbstractFloat=0.01,
     charX::Function=false_positive_rate,
@@ -156,21 +183,70 @@ The default charX and charY functions will measure the false
 positive rate along the X-axis and the true positive rate
 along the Y-axis.
 """
-function roccurve(actual, ŷ;
+function roc(actual, ŷ;
                   increment::AbstractFloat=0.01,
                   charX::Function=false_positive_rate,
-                  charY::Function=true_positive_rate)::Tuple(Vector{AbstractFloat}, Vector{AbstractFloat})
+                  charY::Function=true_positive_rate)::Tuple{Vector{AbstractFloat}, Vector{AbstractFloat}}
     charX_vals = Vector{AbstractFloat}()
     charY_vals = Vector{AbstractFloat}()
 
     for t in 0.:increment:1.
         predicted = classify(ŷ, t)
         append!(charX_vals, charX(actual, predicted))
-        append!(chary_vals, chary(actual, predicted))
+        append!(charY_vals, charY(actual, predicted))
     end
 
     return charX_vals, charY_vals
 end
+
+
+# ========================
+# Classification Counts
+# ========================
+
+"""
+`true_positives(actual, predicted)::Int`
+
+Returns length of (y==1) ∩ (ŷ==1)
+"""
+function true_positives(actual, predicted)::Int
+    return sum((actual .== 1) .& (predicted .== 1))
+end
+
+tp = true_positives
+
+"""
+`false_positives(actual, predicted)::Int`
+
+Returns length of (y==0) ∩ (ŷ==1)
+"""
+function false_positives(actual, predicted)::Int
+    return sum((predicted .== 1) .& (actual .== 0))
+end
+
+fp = false_positives
+
+"""
+`true_negatives(actual, predicted)::Int`
+
+Returns length of (y==0) ∩ (ŷ==0)
+"""
+function true_negatives(actual, predicted)::Int
+    return sum((actual .== 0) .& (predicted .== 0))
+end
+
+tn = true_negatives
+
+"""
+`false_negatives(actual, predicted)::Int`
+
+Returns length of (y==1) ∩ (ŷ==0)
+"""
+function false_negatives(actual, predicted)::Int
+    return sum((predicted .== 0) .& (actual .== 1))
+end
+
+fn = false_negatives
 
 
 # ========================
@@ -247,7 +323,6 @@ function false_discovery_rate(; fp::Int=NaN, tp::Int=NaN)
     return fp / (fp + tp)
 end
 
-# See `?false_discovery_rate`
 fdr = false_discovery_rate
 
 """
@@ -269,7 +344,6 @@ function false_negative_rate(; fn::Int=NaN, tp::Int=NaN)
     return fn  / (fn + tp)
 end
 
-# See `?false_negative_rate`
 fnr = false_negative_rate
 
 """
@@ -292,10 +366,7 @@ function false_positive_rate(; fp::Int=NaN, tn::Int=NaN)
     return fp / (fp + tn)
 end
 
-# See `?false_positive_rate`
 fallout = false_positive_rate
-
-# See `?false_positive_rate`
 fpr = false_positive_rate
 
 """
@@ -358,11 +429,10 @@ function matthews_corrcoef(actual, predicted)::AbstractFloat
 end
 
 function matthews_corrcoef(; tp::Int=NaN,
-        tn::Int=NaN, fp::Int=NaN, fn::Int=NaN::AbstractFloat
+        tn::Int=NaN, fp::Int=NaN, fn::Int=NaN)::AbstractFloat
     return (tp*tn - fp*fn) / sqrt( (tp+fp)*(tp+fn)*(tn+fp)*(tn+fn) )
 end
 
-# See `?matthews_corrcoef`
 mcc = matthews_corrcoef
 
 """
@@ -385,7 +455,6 @@ function negative_predictive_value(; tn::Int=NaN, fn::Int=NaN)::AbstractFloat
     return tn / (tn + fn)
 end
 
-# See `?negative_predictive_value`
 npv = negative_predictive_value
 
 
@@ -409,10 +478,7 @@ function positive_predictive_value(; tp::Int=NaN, fp::Int=NaN)::AbstractFloat
     return tp / (tp + fp)
 end
 
-# See `?positive_predictive_value`
 ppv = positive_predictive_value
-
-# See `?positive_predictive_value`
 precision = positive_predictive_value
 
 
@@ -436,11 +502,9 @@ function true_negative_rate(; tn::Int=NaN, fp::Int=NaN)::AbstractFloat
     return tn / (tn + fp)
 end
 
-# See `?true_negative_rate`
 spc = true_negative_rate
-
-# See `?true_negative_rate`
 specificity = true_negative_rate
+tnr = true_negative_rate
 
 
 """
@@ -463,11 +527,6 @@ function true_positive_rate(; tp::Int=NaN, fn::Int=NaN)::AbstractFloat
     return tp / (tp + fn)
 end
 
-# See `?true_positive_rate`
 recall = true_positive_rate
-
-# See `?true_positive_rate`
 sensitivity = true_positive_rate
-
-# See `?true_positive_rate`
 tpr = true_positive_rate
