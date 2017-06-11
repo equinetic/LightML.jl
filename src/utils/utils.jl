@@ -107,3 +107,7 @@ end
 function sigmoid_prime(x)
     return sigmoid(x).*(1-sigmoid(x))
 end
+
+function classify(predicted, threshold::AbstractFloat=0.50)
+  return map(x-> x > threshold ? 1 : 0, predicted)
+end

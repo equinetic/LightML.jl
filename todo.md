@@ -29,7 +29,12 @@ Feel free to use the [frame.jl](src/utils/frame.jl) to develop your version of M
 - [ ] Eliminate ForwardDiff dependency, this involves linear regression code and should be easy to do.
 - [ ] Eliminate PyCall dependency, this involves eliminating the dependency on python scikit-learn's datasets for testing purpose.
 - [ ] Add ROC statistic calculations to utils
+  - 6-6-17: Added many more error calculations as well
 - [ ] Remove Gadfly in lieu of Plots
 - [ ] Provide more API examples in the README
-- [ ] Add MinMax, UnitLength scaling to utils
+- [x] Add MinMax, UnitLength scaling to utils
+  - 6-6-17: Implemented as StandardizeScaler, RescaleScaler, and UnitLengthScaler
 - [ ] Use Abstract types
+- [ ] Define shared function for the tests
+- [ ] Consider adding a plotting utilities section
+- [ ] Build out tests

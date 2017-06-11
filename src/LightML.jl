@@ -18,10 +18,10 @@ using Clustering
 
 
 
-export 
+export
 
-    test_LinearRegression, 
-    test_LogisticRegression, 
+    test_LinearRegression,
+    test_LogisticRegression,
 
     test_ClassificationTree,
     test_RegressionTree,
@@ -87,7 +87,16 @@ export
     Kmeans,
     PCA,
     transform,
-    spec_clustering
+    spec_clustering,
+
+    # utils/scaling.jl
+    FeatureScaler,
+      StandardizeScaler,
+        standardize,
+      RescaleScaler,
+        rescale,
+      UnitLengthScaler,
+        unitlength
 
 
 
@@ -96,7 +105,7 @@ typealias Features Union{String, Real}
 
 
 
-#Supervised_learning 
+#Supervised_learning
 
 include("supervised_learning/baseRegression.jl")
 include("supervised_learning/decisionTree.jl")
@@ -114,7 +123,7 @@ include("supervised_learning/xgboost.jl")
 include("supervised_learning/GradientBoostingTree.jl")
 
 
-#Unsupervised_learning 
+#Unsupervised_learning
 
 include("unsupervised_learning/gaussianMixtureModel.jl")
 include("unsupervised_learning/kMeans.jl")

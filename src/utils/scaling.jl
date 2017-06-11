@@ -1,8 +1,9 @@
+# TODO: use typealias Union{} for ::ScalerParams, :Scaler etc.
+
 type FeatureScaler
     scalefun
     params
 end
-
 
 # ========================
 # API
@@ -14,14 +15,13 @@ function train!(scaler::FeatureScaler,
     scaler
 end
 
-function predict(X::AbstractVecOrMat, scaler::FeatureScaler)
+function predict(scaler::FeatureScaler, X::AbstractVecOrMat)
     scaler.scalefun(X, scaler)
 end
 
 # ========================
 # Scaling functions
 # ========================
-
 
 # ++++++ Standardize +++++++
 
@@ -56,7 +56,6 @@ function standardize(X::AbstractVecOrMat)
     return μ, σ
 end
 
-
 # ++++++ Rescale +++++++
 
 type RescaleParams{T}
@@ -89,7 +88,6 @@ function rescale(X::AbstractVecOrMat)
     xmax = maximum(X)
     return xmin, xmax
 end
-
 
 # ++++++ Unit Length +++++++
 
