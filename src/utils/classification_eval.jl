@@ -36,16 +36,16 @@ immutable ClassificationStatistics
         fn = false_negatives(actual, predicted)
         ppv = positive_predictive_value(actual, predicted)
         npv = negative_predictive_value(actual, predicted)
-        sense = sensitivity(actual, predicted)
-        spec = specificity(actual, predicted)
+        sensitivity = sensitivity(actual, predicted)
+        specificity = specificity(actual, predicted)
         fpr = false_positive_rate(actual, predicted)
         fnr = false_negative_rate(actual, predicted)
         fdr = false_discovery_rate(actual, predicted)
-        f1 = f1score(actual, predicted)
+        f1score = f1score(actual, predicted)
         acc = accuracy(actual, predicted)
         mcc = matthews_corrcoef(actual, predicted)
-        inf = informedness(actual, predicted)
-        mark = markedness(actual, predicted)
+        informedness = informedness(actual, predicted)
+        markedness = markedness(actual, predicted)
         new(tp, fp, tn, fn,ppv, npv, sense, spec, fpr,
              fnr, fdr, f1, acc, mcc, inf, mark)
     end
@@ -135,8 +135,7 @@ fn = false_negatives
 """
 ```julia
 roccurve(
-    actual,
-    ŷ,
+    actual, ŷ;
     increment::AbstractFloat=0.01,
     charX::Function=false_positive_rate,
     charY::Function=true_positive_rate
@@ -146,19 +145,18 @@ roccurve(
 where
     `actual` = vector of labels\n
     `ŷ` = vector of non-classified predicted labels\n
-    `increment` = the step between 0.00 and 1.00 for the discriminat threshold\n
+    `increment` = the step between 0.00 and 1.00 for the discrimination threshold\n
     `charX` = receiver operating characteristic along the X-axis\n
     `charY` = receiver operating characterstic along the Y-axis\n
 
 The ROC curve measures the predictive effectiveness of a binary
-classifier when adjusting the discriminant threshold value.
+classifier when adjusting the discrimination threshold value.
 
 The default charX and charY functions will measure the false
 positive rate along the X-axis and the true positive rate
 along the Y-axis.
 """
-function roccurve(actual,
-                  ŷ,
+function roccurve(actual, ŷ;
                   increment::AbstractFloat=0.01,
                   charX::Function=false_positive_rate,
                   charY::Function=true_positive_rate)::Tuple(Vector{AbstractFloat}, Vector{AbstractFloat})
