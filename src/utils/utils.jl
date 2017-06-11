@@ -111,3 +111,7 @@ end
 function classify(predicted, threshold::AbstractFloat=0.50)
   return map(x-> x > threshold ? 1 : 0, predicted)
 end
+
+function classify2(predicted, threshold::AbstractFloat=0.50)
+  return ifelse(predicted .> threshold, 1, 0)
+end

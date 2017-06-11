@@ -3,6 +3,7 @@ module LightML
 
 
 #using Gadfly
+using Plots
 using DataFrames
 using ForwardDiff
 using Distributions
@@ -66,6 +67,7 @@ export
     train!,
     predict,
 
+    # src/supervised_learning
     RegressionTree,
     ClassificationTree,
     randomForest,
@@ -83,13 +85,15 @@ export
     NaiveBayes,
     NeuralNetwork,
     svm,
+
+    # src/unsupervised_learning
     GaussianMixture,
     Kmeans,
     PCA,
     transform,
     spec_clustering,
 
-    # utils/scaling.jl
+    # src/utils/scaling.jl
     FeatureScaler,
       StandardizeScaler,
         standardize,
@@ -98,7 +102,8 @@ export
       UnitLengthScaler,
         unitlength,
 
-    # utils/classification_eval.jl
+    # src/utils/classification_eval.jl
+    ConfusionMatrix,
     ClassificationStatistics,
       positive_predictive_value,
         precision,
@@ -126,7 +131,6 @@ export
       f1score,
       classification_error,
       accuracy,
-    ConfusionMatrix,
     roccurve
 
 

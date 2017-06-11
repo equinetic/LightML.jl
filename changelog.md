@@ -1,7 +1,7 @@
 # Changed
 
 - Reorganized / split utils.jl by category
-- Moved away from `*_` names; favoring common synonyms and symbols
+- Moved away from `*_` names, now favoring common synonyms and symbols
 - utils/scaling.jl
     * `normalize_` => `standardize`
     * Added `minmax`
@@ -27,3 +27,6 @@
     * Receiver Operating Characteristics
 - utils/utils.jl
     * `classify`
+- Changed "test\_" functions to "demo\_"
+- Began build out of formal tests in /test
+- Removed Gadfly dependency in favor of Plots.jl
