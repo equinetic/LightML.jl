@@ -103,41 +103,52 @@ export
         unitlength,
 
     # src/utils/classification_eval.jl
+    ## Types
     ConfusionMatrix,
     ClassificationStatistics,
-      positive_predictive_value,
-        precision,
-        ppv,
-      negative_predictive_value,
-        npv,
-      sensitivity,
-        true_positive_rate,
-        tpr,
-        recall,
-      specificity,
-        true_positive_rate,
-        spc,
-      false_positive_rate,
+
+    ## Classification Counts
+    true_positives,
+        tp,
+    false_positives,
+        fp,
+    true_negatives,
+        tn,
+    false_negatives,
+        fn,
+
+    ## ROC Curve
+    roccurve,
+
+    ## Classification Evaluation
+    accuracy,
+    classification_error,
+    f1score,
+    false_discovery_rate,
+        fdr,
+    false_negative_rate,
+        fnr,
+    false_positive_rate,
         fallout,
         fpr,
-      false_negative_rate,
-        fnr,
-      false_discovery_rate,
-        fdr,
-      matthews_corrcoef,
+    informedness,
+    markedness,
+    matthews_corrcoef,
         mcc,
-      informedness,
-      markedness,
-      f1score,
-      classification_error,
-      accuracy,
-    roccurve
-
-
-
+    negative_predictive_value,
+        npv,
+    positive_predictive_value,
+        ppv,
+        precision,
+    true_negative_rate,
+        spc,
+        specificity,
+    true_positive_rate,
+        recall,
+        sensitivity,
+        tpr,
 
 typealias Features Union{String, Real}
-
 
 
 #Supervised_learning
