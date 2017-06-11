@@ -74,13 +74,14 @@ function roccurve(actual,
                   ŷ,
                   increment::AbstractFloat=0.01,
                   charX::Function=false_positive_rate,
-                  charY::Function=sensitivity)::Tuple(Vector{AbstractFloat}, Vector{AbstractFloat})
+                  charY::Function=true_positive_rate)::Tuple(Vector{AbstractFloat}, Vector{AbstractFloat})
     charX_vals = Vector{AbstractFloat}()
     charY_vals = Vector{AbstractFloat}()
 
     for t in 0.:increment:1.
-        append!(charX_vals, charX(actual, classify(ŷ, t)))
-        append!(chary_vals, chary(actual, classify(ŷ, t)))
+        predicted = classify(ŷ, t)
+        append!(charX_vals, charX(actual, predicted))
+        append!(chary_vals, chary(actual, predicted))
     end
 
     return charX_vals, charY_vals
@@ -140,6 +141,9 @@ true_positive_rate = sensitivity
 
 # See `?sensitivity`
 tpr = sensitivity
+
+# See `?sensitivity`
+recall = sensitivity
 
 """
 SPC

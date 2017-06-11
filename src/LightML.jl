@@ -2,7 +2,7 @@
 module LightML
 
 
-using Gadfly
+#using Gadfly
 using DataFrames
 using ForwardDiff
 using Distributions
@@ -96,7 +96,38 @@ export
       RescaleScaler,
         rescale,
       UnitLengthScaler,
-        unitlength
+        unitlength,
+
+    # utils/classification_eval.jl
+    ClassificationStatistics,
+      positive_predictive_value,
+        precision,
+        ppv,
+      negative_predictive_value,
+        npv,
+      sensitivity,
+        true_positive_rate,
+        tpr,
+        recall,
+      specificity,
+        true_positive_rate,
+        spc,
+      false_positive_rate,
+        fallout,
+        fpr,
+      false_negative_rate,
+        fnr,
+      false_discovery_rate,
+        fdr,
+      matthews_corrcoef,
+        mcc,
+      informedness,
+      markedness,
+      f1score,
+      classification_error,
+      accuracy,
+    ConfusionMatrix,
+    roccurve
 
 
 
