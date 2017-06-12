@@ -1,6 +1,6 @@
 
 
-type GDA 
+type GDA
     n_class::Integer
     class_mean::Matrix
     class_cov::Matrix
@@ -16,7 +16,7 @@ function GDA(;
             class_ = zeros(2))
     return GDA(n_class, class_mean, class_cov, class_priors,class_)
 end
-    
+
 
 
 function train!(model::GDA, X::Matrix, y::Vector)
@@ -69,17 +69,10 @@ function log_pdf(model::GDA,
 end
 
 # therer is some problem to be fixed
-function test_GDA()
+function demo_GDA()
     X_train, X_test, y_train, y_test = make_cla()
     model = GDA()
     train!(model,X_train, y_train)
     predictions = predict(model,X_test)
     print("classification accuracy", accuracy(y_test, predictions))
 end
-
-
-
-
-
-
-

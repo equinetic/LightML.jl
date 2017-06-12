@@ -244,7 +244,7 @@ function label_propagation(affinity_matrix, labels; kernel_type = "rbf", rbf_sig
   end
 
 
-function test_label_propagation()
+function demo_label_propagation()
   num_unlabel_samples = 800
   Mat_Label, labels, Mat_Unlabel = loadCircleData(num_unlabel_samples)
   iter = round(linspace(1,70,5))

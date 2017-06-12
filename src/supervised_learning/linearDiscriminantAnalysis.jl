@@ -80,7 +80,7 @@ function predict(model::LDA, X::Matrix)
     return temp
 end
 
-function test_LDA()
+function demo_LDA()
     X_train, X_test, y_train, y_test = make_cla()
     model = LDA()
     train!(model, X_train, y_train)
@@ -90,7 +90,7 @@ function test_LDA()
     plot_in_2d(model, X_train, y_train)
 end
 
-function test_LDA_reduction()
+function demo_LDA_reduction()
     X_train, X_test, y_train, y_test = make_cla()
     model = LDA()
     plot_in_2d(model, X_train, y_train)

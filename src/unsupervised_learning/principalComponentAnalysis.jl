@@ -58,7 +58,7 @@ function plot_in_2d(model::PCA, X::Matrix, y::Vector, title::String)
 end
 
 
-function test_PCA()
+function demo_PCA()
     X_train, X_test, y_train, y_test = make_digits()
     model = PCA()
     train!(model,X_train)

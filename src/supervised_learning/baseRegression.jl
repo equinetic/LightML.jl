@@ -152,7 +152,7 @@ function add_reg(loss,w,model)
 end
 
 
-function test_LinearRegression(;reg = "l1")
+function demo_LinearRegression(;reg = "l1")
 
     X_train, X_test, y_train, y_test = make_reg(n_features = 1)
     model = LinearRegression(lr=0.01, max_iters=200, reg=reg, C=0.03)
@@ -164,7 +164,7 @@ function test_LinearRegression(;reg = "l1")
     legend(loc="upper right",fancybox="true")
 end
 
-function test_LogisticRegression(; reg = "l2")
+function demo_LogisticRegression(; reg = "l2")
     # Generate a random binary classification problem.
     X_train, X_test, y_train, y_test = make_cla()
     y_train = (y_train + 1)/2

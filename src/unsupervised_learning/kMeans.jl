@@ -191,7 +191,7 @@ function plot_in_2d(model::Kmeans)
 end
 
 
-function test_kmeans_speed()
+function demo_kmeans_speed()
     X, y = make_blo()
     clu = length(unique(y))
     @show clu
@@ -202,7 +202,7 @@ function test_kmeans_speed()
 end
 
 
-function test_kmeans_random()
+function demo_kmeans_random()
     X, y = make_blo()
     clu = length(unique(y))
     @show clu

@@ -46,7 +46,7 @@ function train!(model::XGBoost, X::Matrix, y::Vector)
     end
 end
 
-function predict(model::XGBoost, 
+function predict(model::XGBoost,
                  x::Matrix)
     n_sample = size(x)
     flag = 1
@@ -72,7 +72,7 @@ function predict(model::XGBoost,
 end
 
 
-function test_xgboost()
+function demo_xgboost()
     X_train, X_test, y_train, y_test = make_iris()
     model = XGBoost()
     train!(model,X_train, y_train)
@@ -80,16 +80,3 @@ function test_xgboost()
     print("$(predictions)")
     print("classification accuracy", accuracy(y_test, predictions))
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -2,19 +2,17 @@
 module LightML
 
 
-using Plots; pyplot()
-using DataFrames
-using ForwardDiff
-using Distributions
-using PyCall
-using DataStructures
-using Distances
-using Clustering
-
-
+using   Plots,
+        DataFrames,
+        ForwardDiff,
+        Distributions,
+        PyCall,
+        DataStructures,
+        Distances,
+        Clustering,
 
 @pyimport sklearn.datasets as dat
-
+pyplot()
 
 
 export

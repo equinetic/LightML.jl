@@ -356,7 +356,7 @@ end
 
 
 
-function test_ClassificationTree()
+function demo_ClassificationTree()
     X_train, X_test, y_train, y_test = make_iris()
     y_train = one_hot(y_train)
     y_test = one_hot(y_test)
@@ -374,7 +374,7 @@ function test_ClassificationTree()
 end
 
 
-function test_RegressionTree()
+function demo_RegressionTree()
     X_train, X_test, y_train, y_test = make_reg(n_features = 1)
     model = RegressionTree()
     train!(model,X_train, y_train)

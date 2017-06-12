@@ -97,7 +97,7 @@ function dist(x::Vector, y::Vector, dist_func::Euclidean)
 end
 
 
-function test_kneast_regression()
+function demo_kneast_regression()
 
     X_train, X_test, y_train, y_test = make_reg(n_features = 1)
 
@@ -110,7 +110,7 @@ function test_kneast_regression()
     legend(loc="upper right",fancybox="true")
 end
 
-function test_kneast_classification()
+function demo_kneast_classification()
     X_train, X_test, y_train, y_test = make_digits()
     model = KnnClassifier()
     train!(model,X_train, y_train)

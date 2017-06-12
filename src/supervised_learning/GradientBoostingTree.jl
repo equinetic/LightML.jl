@@ -104,7 +104,7 @@ end
 
 
 
-function test_GradientBoostingRegressor()
+function demo_GradientBoostingRegressor()
     X_train, X_test, y_train, y_test = make_reg(n_features = 1)
     model = GradientBoostingRegressor()
     train!(model,X_train, y_train)
@@ -116,7 +116,7 @@ function test_GradientBoostingRegressor()
 end
 
 
-function test_GradientBoostingClassifier()
+function demo_GradientBoostingClassifier()
     X_train, X_test, y_train, y_test = make_cla()
     model = GradientBoostingClassifier()
     train!(model,X_train, y_train)
