@@ -2,13 +2,11 @@
 module LightML
 
 
-#using Gadfly
-using Plots
+using Plots; pyplot()
 using DataFrames
 using ForwardDiff
 using Distributions
 using PyCall
-using PyPlot
 using DataStructures
 using Distances
 using Clustering
@@ -20,50 +18,14 @@ using Clustering
 
 
 export
-
-    test_LinearRegression,
-    test_LogisticRegression,
-
-    test_ClassificationTree,
-    test_RegressionTree,
-
-    test_GDA,
-    test_HMM,
-
-    test_kneast_regression,
-    test_kneast_classification,
-
-
-    test_label_propagation,
-
-    test_LDA,
-    test_LDA_reduction,
-
-    test_naive,
-
-    test_NeuralNetwork,
-
-    test_svm,
-
-    test_GaussianMixture,
-
-    test_kmeans_random,
-    test_kmeans_speed,
-
-    test_PCA,
-
-    test_spec_cluster,
-
-    test_Adaboost,
-    test_BoostingTree,
-    test_randomForest,
-
+    # Data Generation
     make_cla,
     make_reg,
     make_digits,
     make_blo,
     make_iris,
 
+    # Shared API
     train!,
     predict,
 
@@ -103,11 +65,13 @@ export
         unitlength,
 
     # src/utils/classification_eval.jl
-    ## Types
+    # > Types
     ClassificationStatistics,
     ConfusionMatrix,
+    ROCCurve,
+        roc,
 
-    ## Classification Counts
+    # > Classification Counts
     true_positives,
         tp,
     false_positives,
@@ -117,11 +81,7 @@ export
     false_negatives,
         fn,
 
-    ## ROC Curve
-    ROCCurve,
-    roc,
-
-    ## Classification Evaluation
+    # > Classification Evaluation
     accuracy,
     classification_error,
     f1score,
@@ -150,11 +110,32 @@ export
         sensitivity,
         tpr,
 
-#typealias Features Union{String, Real}
+    # Education Functions
+    demo_LinearRegression,
+    demo_LogisticRegression,
+    demo_ClassificationTree,
+    demo_RegressionTree,
+    demo_GDA,
+    demo_HMM,
+    demo_kneast_regression,
+    demo_kneast_classification,
+    demo_label_propagation,
+    demo_LDA,
+    demo_LDA_reduction,
+    demo_naive,
+    demo_NeuralNetwork,
+    demo_svm,
+    demo_GaussianMixture,
+    demo_kmeans_random,
+    demo_kmeans_speed,
+    demo_PCA,
+    demo_spec_cluster,
+    demo_Adaboost,
+    demo_BoostingTree,
+    demo_randomForest
 
 
 #Supervised_learning
-
 include("supervised_learning/baseRegression.jl")
 include("supervised_learning/decisionTree.jl")
 include("supervised_learning/gaussianDiscriminantAnalysis.jl")
@@ -172,7 +153,6 @@ include("supervised_learning/GradientBoostingTree.jl")
 
 
 #Unsupervised_learning
-
 include("unsupervised_learning/gaussianMixtureModel.jl")
 include("unsupervised_learning/kMeans.jl")
 include("unsupervised_learning/principalComponentAnalysis.jl")
@@ -184,6 +164,7 @@ include("utils/classification_eval.jl")
 include("utils/demo.jl")
 include("utils/eval.jl")
 include("utils/partitioning.jl")
+include("utils/plot_utils.jl")
 include("utils/scaling.jl")
 include("utils/utils.jl")
 

@@ -126,9 +126,7 @@ function demo()
     # .......
     #  PLOT
     # .......
-
     x1 = X_test[:, 1]
     x2 = X_test[:, 2]
-    df = DataFrame(x = x1, y = x2, clu = y_test)
-    Gadfly.plot(df, x = "x", y = "y", color = "clu", Geom.point, Guide.title("PCA"))
+    scatter(x1, x2, color=y_test, title="PCA")
 end

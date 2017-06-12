@@ -6,11 +6,11 @@ abstract Dist
 type Euclidean <: Dist
 end
 
-abstract KNN 
+abstract KNN
 
 type KnnClassifier <: KNN
     k::Integer
-    dis_func::Dist 
+    dis_func::Dist
     X::Matrix
     y::Vector
 end
@@ -18,7 +18,7 @@ end
 
 type KnnRegression <: KNN
     k::Integer
-    dis_func::Dist 
+    dis_func::Dist
     X::Matrix
     y::Vector
 end
@@ -44,7 +44,7 @@ end
 
 function train!(model::KnnClassifier, X::Matrix, y::Vector)
     model.X = X
-    model.y = y 
+    model.y = y
 end
 
 
@@ -72,7 +72,7 @@ function predict(model::KnnClassifier,
     for (key,value) in countmap(y_cos)
         if value > label_freq
             label_freq = value
-            label = key 
+            label = key
         end
     end
     return label
@@ -105,8 +105,8 @@ function test_kneast_regression()
     train!(model,X_train, y_train)
     predictions = predict(model,X_test)
     print("regression msea", mean_squared_error(y_test, predictions))
-    PyPlot.scatter(X_test, y_test, color = "black")
-    PyPlot.scatter(X_test, predictions, color = "green")
+    scatter(X_test, y_test, color = "black")
+    scatter(X_test, predictions, color = "green")
     legend(loc="upper right",fancybox="true")
 end
 
@@ -125,16 +125,3 @@ function test_kneast_classification()
     plot_in_2d(pca_model, X_test, predictions, "kneast_classification")
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

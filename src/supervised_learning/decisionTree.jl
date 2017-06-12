@@ -36,7 +36,7 @@ type SquareLoss <: LossFunction
     hessian::Function
 
     function obj(y::Array, y_pred::Array)
-        return 0.5 * sumabs2(y - y_pred) 
+        return 0.5 * sumabs2(y - y_pred)
     end
     function gradient(y::Array, y_pred::Array)
         return (y_pred - y)
@@ -77,18 +77,18 @@ abstract DecisionTree
 
 type RegressionTree <: DecisionTree
     root::Union{DecisionNode,String}
-    max_depth::Integer 
-    min_gain::Float64 
+    max_depth::Integer
+    min_gain::Float64
     min_samples_split::Integer
     current_depth::Integer
     y_num::Integer
-end  
+end
 
 
 type ClassificationTree <: DecisionTree
     root::Union{DecisionNode,String}
-    max_depth::Integer 
-    min_gain::Float64 
+    max_depth::Integer
+    min_gain::Float64
     min_samples_split::Integer
     current_depth::Integer
     y_num::Integer
@@ -96,8 +96,8 @@ end
 
 type XGBoostRegressionTree <: DecisionTree
     root::Union{DecisionNode,String}
-    max_depth::Int64 
-    min_gain::Float64 
+    max_depth::Int64
+    min_gain::Float64
     min_samples_split::Int64
     current_depth::Int64
     loss::LogisticLoss
@@ -200,7 +200,7 @@ function build_tree(model::DecisionTree, X::Matrix, y::Array)
         false_branch = build_tree(model, rightX, rightY)
         model.current_depth += 1
         return DecisionNode(feature_index = best_criteria["feature_i"],
-         threshold = best_criteria["threshold"], true_branch = true_branch, 
+         threshold = best_criteria["threshold"], true_branch = true_branch,
          false_branch = false_branch)
     end
 
@@ -231,7 +231,7 @@ function leaf_value_calc(model::ClassificationTree, y::Array)
     feature = unique(y)
     most_common = nothing
     count_max = 0
-    for i in feature 
+    for i in feature
         count = sum(y .== i)
         if count > count_max
             count_max = count
@@ -289,12 +289,12 @@ function impurity_calc(model::ClassificationTree, y, y1, y2)
 end
 
 
-function predict(model::DecisionTree, 
+function predict(model::DecisionTree,
                  x::Matrix)
     n = size(x,1)
     res = zeros(n)
     if model.y_num == 1
-        for i = 1:n 
+        for i = 1:n
             res[i] = predict(model.root, x[i,:])
         end
     else
@@ -312,14 +312,14 @@ function predict(model::DecisionNode,
     if model.label != "nothing"
         return model.label
     end
-    feature_current = x[model.feature_index] 
+    feature_current = x[model.feature_index]
     if typeof(feature_current) <:String
         if feature_current == model.threshold
             return predict(model.true_branch, x)
         else
             return predict(model.false_branch, x)
         end
-    elseif typeof(feature_current) <: Real 
+    elseif typeof(feature_current) <: Real
         if feature_current <= model.threshold
             return predict(model.true_branch, x)
         else
@@ -380,23 +380,7 @@ function test_RegressionTree()
     train!(model,X_train, y_train)
     predictions = predict(model,X_test)
     print("regression msea", mean_squared_error(y_test, predictions))
-    PyPlot.scatter(X_test, y_test, color = "black")
-    PyPlot.scatter(X_test, predictions, color = "green")
+    scatter(X_test, y_test, color = "black")
+    scatter(X_test, predictions, color = "green")
     legend(loc="upper right",fancybox="true")
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -109,16 +109,6 @@ immutable ConfusionMatrix
     end
 end
 
-function Base.print(c::ConfusionMatrix)
-    println("  + -")
-    println("+ ", c.tp, " ", c.fn)
-    println("- ", c.fp, " ", c.tn)
-end
-
-# ==================================
-# Receiver Operating Characteristics
-# ==================================
-
 """
 ROC Curve
 ============
@@ -138,26 +128,13 @@ immutable ROCCurve
                 increment::AbstractFloat=.01,
                 charX::Function=false_positive_rate,
                 charY::Function=true_positive_rate)
-        cx, cy = roc(actual, yhat, charX=charX, charY=charY)
+        xv,yv = roc(actual, yhat, increment=increment, charX=charX, charY=charY)
         xl = string(:($charX)); yl = string(:($charY))
         fundesc = string(yl, " ~ ", xl)
-        new(charX, charY, cx, cy, xl, yl, fundesc)
+        new(charX, charY, xv, yv, xl, yl, fundesc)
     end
 end
 
-function Plots.plot(r::ROCCurve, x...)
-    Plots.plot(r.x_vals, r.y_vals,
-        xlabel=r.xlabel,
-        ylabel=r.ylabel,
-        title=r.fundesc, x...)
-end
-
-function Plots.scatter(r::ROCCurve, x...)
-    Plots.plot(r.x_vals, r.y_vals,
-        xlabel=r.xlabel,
-        ylabel=r.ylabel,
-        title=r.fundesc, x...)
-end
 
 """
 ```julia

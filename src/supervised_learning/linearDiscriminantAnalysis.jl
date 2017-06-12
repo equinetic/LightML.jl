@@ -1,5 +1,5 @@
 
- 
+
 
 type LDA
     n_components::Integer
@@ -32,7 +32,7 @@ function calc_Sw_Sb(model::LDA, X::Matrix, y::Vector)
         mean_ = (mean(X_,1) - total_mean)
         Sb += size(X_, 1) * mean_' * mean_
     end
-    return Sw, Sb 
+    return Sw, Sb
 
 
 end
@@ -44,7 +44,7 @@ function transform_(model::LDA, X::Matrix, y::Vector)
         S = diagm(S)
         Sw_inverse = V * pinv(S) * U'
         A = Sw_inverse * Sb
-    else 
+    else
         A = inv(Sw) * Sb
     end
 
@@ -66,8 +66,8 @@ function plot_in_2d(model::LDA, X::Matrix, y::Vector)
     x2 = X_transformed[:, 2]
     df = DataFrame(x = x1, y = x2, clu = y)
     println("Computing finished")
-    println("Drawing the plot.....Please Wait(Actually Gadfly is quite slow in drawing the first plot)")
-    Gadfly.plot(df, x = "x", y = "y", color = "clu", Geom.point)
+    println("Drawing the plot.....")
+    scatter(x1, x2, color=y)
 end
 
 function train!(model::LDA, X::Matrix, y::Vector)
@@ -95,17 +95,3 @@ function test_LDA_reduction()
     model = LDA()
     plot_in_2d(model, X_train, y_train)
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-

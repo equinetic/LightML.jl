@@ -148,7 +148,7 @@ function add_reg(loss,w,model)
     elseif model.reg == "l2"
         return loss + 0.5 * model.C * mean(abs2(w))
     end
-    return loss 
+    return loss
 end
 
 
@@ -159,8 +159,8 @@ function test_LinearRegression(;reg = "l1")
     train!(model,X_train, y_train)
     predictions = predict(model,X_test)
     print("regression mse: ", mean_squared_error(y_test, predictions))
-    PyPlot.scatter(X_test, y_test, color = "black")
-    PyPlot.scatter(X_test, predictions, color = "green")
+    scatter(X_test, y_test, color = "black")
+    scatter(X_test, predictions, color = "green")
     legend(loc="upper right",fancybox="true")
 end
 
@@ -180,5 +180,3 @@ function test_LogisticRegression(; reg = "l2")
     train!(pca_model, X_test)
     plot_in_2d(pca_model, X_test, predictions, "LogisticRegression")
 end
-
-

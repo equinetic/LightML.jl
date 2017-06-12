@@ -10,6 +10,8 @@
 - utils/classification_eval.jl
     * New type: ClassificationStatistics
     * New type: ConfusionMatrix
+    * New type: ROCCurve - primarily used for convenient plotting
+    * `roc` function - generalized so the X and Y functions (characteristics) can be swapped out
     * Added many more classification stats
         * tp, fp, tn, fn calculators
         * positive_predictive_value (precision)
@@ -24,9 +26,9 @@
         * markedness
         * f1score
         * accuracy (existing, listing it here for a complete list)
-    * Receiver Operating Characteristics
 - utils/utils.jl
     * `classify`
 - Changed "test\_" functions to "demo\_"
 - Began build out of formal tests in /test
 - Removed Gadfly dependency in favor of Plots.jl
+-

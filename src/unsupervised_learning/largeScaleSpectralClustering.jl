@@ -72,7 +72,7 @@ function plot_in_2d(model::LSC, X::Matrix)
     if size(X,1) > size(X,2)
         X = transpose(X)
     end
-    Gadfly.plot(x = X[1,:], y = X[2, :], color = model.cluster_result)
+    scatter(X[1,:], X[2,:], color=model.cluster_result)
 end
 
 
@@ -108,19 +108,14 @@ function test_LSC()
     end
     println("$(df)")
     println("computing finied, drawing the plot......")
-    set_default_plot_size(25cm, 14cm)
-    Gadfly.plot(df, x="x", y = "y", color = "group",xgroup = "datasets", Geom.subplot_grid(Geom.point), Guide.title("Large Scale Spectral Clustering"))
+    default(size=(25cm, 14cm))
+
+    dfg = groupby(df, :datasets)
+    x=[d[:x] for d in dfg]
+    y=[d[:y] for d in dfg]
+    col=[d[:group] for d in dfg]
+    xl=[d[:datasets] for d in dfg]
+
+    scatter(x, y, color=col, xlabel=xl, layout=4, title="Large Scale Spectral Clustering")
+
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

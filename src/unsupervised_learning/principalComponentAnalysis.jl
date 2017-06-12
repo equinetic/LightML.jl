@@ -31,11 +31,11 @@ function train!(model::PCA, X::Matrix)
     model.components = V[:, 1:model.n_components]
 end
 
-function transform(model::PCA, 
+function transform(model::PCA,
                  x::Matrix)
     n = size(x,1)
     res = zeros(n, model.n_components)
-    for i = 1:n 
+    for i = 1:n
         res[i, :] = transform(model, x[i,:])
     end
     return res
@@ -52,10 +52,9 @@ function plot_in_2d(model::PCA, X::Matrix, y::Vector, title::String)
     X = transform(model, X)
     x1 = X[:, 1]
     x2 = X[:, 2]
-    df = DataFrame(x = x1, y = x2, clu = y)
     println("Computing finished")
-    println("Drawing the plot.....Please Wait(Actually Gadfly is quite slow in drawing the first plot)")
-    Gadfly.plot(df, x = "x", y = "y", color = "clu", Geom.point, Guide.title(title))
+    println("Drawing the plot.....")
+    scatter(x1, x2, color=y, title=title)
 end
 
 
@@ -65,16 +64,3 @@ function test_PCA()
     train!(model,X_train)
     plot_in_2d(model, X_train, y_train, "PCA")
 end
-
-
-
-
-
-
-
-
-
-
-
-
-

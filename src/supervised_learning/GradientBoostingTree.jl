@@ -35,7 +35,7 @@ function GradientBoostingRegressor(;
         push!(trees, RegressionTree(min_samples_split = min_sample_split,
             min_gain = min_gain, max_depth = max_depth))
     end
-    return GradientBoostingRegressor(n_clf, learning_rate, 
+    return GradientBoostingRegressor(n_clf, learning_rate,
                         max_depth, min_sample_split,
                         min_gain, init_estimate, trees)
 end
@@ -53,7 +53,7 @@ function GradientBoostingClassifier(;
         push!(trees, ClassificationTree(min_samples_split = min_sample_split,
             min_gain = min_gain, max_depth = max_depth))
     end
-    return GradientBoostingClassifier(n_clf, learning_rate, 
+    return GradientBoostingClassifier(n_clf, learning_rate,
                         max_depth, min_sample_split,
                         min_gain, init_estimate, trees)
 end
@@ -99,7 +99,7 @@ function predict(model::GradientBoosting,
         return sign(softmax(y_pred)-1.5)
     end
     return y_pred
-    
+
 end
 
 
@@ -110,8 +110,8 @@ function test_GradientBoostingRegressor()
     train!(model,X_train, y_train)
     predictions = predict(model,X_test)
     print("regression msea", mean_squared_error(y_test, predictions))
-    PyPlot.scatter(X_test, y_test, color = "black")
-    PyPlot.scatter(X_test, predictions, color = "green")
+    scatter(X_test, y_test, color = "black")
+    scatter(X_test, predictions, color = "green")
     legend(loc="upper right",fancybox="true")
 end
 
@@ -123,13 +123,3 @@ function test_GradientBoostingClassifier()
     predictions = predict(model,X_test)
     println("classification accuracy: ", accuracy(y_test, predictions))
 end
-
-
-
-
-
-
-
-
-
-
