@@ -30,5 +30,7 @@ test
 ```
 
 # Notes
+- **learning algos** - I think these should become more modular so people can tinker a little more. In the spirit of LightML there will still be a full suite of native implementations.
 - **src/solvers** - if the native / backend files become too bloated this may be split to *./native* and *./backends* sub directories.
--
+- **src/utils** - moving model eval & diagnostics to a dedicated directory. changing up naming convention in utils to verbs since these are all actions performed on data or models.
+- **src/loss_functions** - loss functions, whether native or backend, should be formatted to return (loss, gradient).
