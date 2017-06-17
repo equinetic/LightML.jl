@@ -65,6 +65,16 @@ Feel free to use the [frame.jl](src/utils/frame.jl) to develop your version of M
   - [ ] Change naming in type. For example 'parameters' may be better expressed as 'weights' or θ
   - [ ] Use method dispatch to allow an optimized solver to be used (e.g. from Optim.jl)
 - [ ] Add binning utility & type
+  - **Capabilities**
+    - [ ] Store into a `Binner` type for application across partitions
+    - [ ] Ability to extract bin-level statistics, such as median or mean.
+  - **Binners**
+    - [ ] Quantile binner (quartiles)
+    - [ ] Numeric binner (manual cut poins)
+    - [ ] Frequency binner (K groups with approximately equal frequency)
+    - [ ] Rank binner (incremental)
+    - [ ] Functional binner (anonymous function). Example given was `FLOOR(LOG(X))`
+    - [ ] Entropy binner (supervised)
 - [ ] Add a pipeline capability
 - [ ] Establish a readthedocs
 

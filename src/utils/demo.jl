@@ -132,7 +132,7 @@ function demo()
 end
 
 
-function demo(model::Symbol)
+function demo(model::Symbol; args...)
     demos = Dict(
         :Adaboost => demo_Adaboost,
         :LinearRegression => demo_LinearRegression,
@@ -161,5 +161,5 @@ function demo(model::Symbol)
         :SpectralCluster => demo_spec_cluster
     )
 
-    demos[model]()
+    demos[model](; args...)
 end

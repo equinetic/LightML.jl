@@ -1,4 +1,3 @@
-
 abstract BaseRegression
 
 
@@ -10,6 +9,19 @@ type LinearRegression <: BaseRegression
     max_iters::Integer
     params::Vector
     errors::Vector
+
+    function LinearRegression(;
+                              C=0.01,
+                              tolerance=0.1,
+                              max_iters=1000,
+                              reg="None",
+                              lr=0.001,
+                              params=nothing,
+                              errors=nothing)
+    if params == nothing params = randn() end
+    if errors == nothing errors = randn() end
+    new(C,reg,lr,tolerance,max_iters,params,errors)
+  end
 end
 
 type LogisticRegression <: BaseRegression
@@ -20,42 +32,19 @@ type LogisticRegression <: BaseRegression
     max_iters::Integer
     params::Vector
     errors::Vector
-end
 
-
-function LinearRegression(;
-                          C=0.01,
-                          tolerance=0.1,
-                          max_iters=1000,
-                          reg="None",
-                          lr=0.001,
-                          params=nothing,
-                          errors=nothing)
-    if params == nothing
-        params = randn(1)
-    end
-    if errors == nothing
-        errors = randn(1)
-    end
-    return LinearRegression(C,reg,lr,tolerance,max_iters,params,errors)
-end
-
-
-function LogisticRegression(;
-                          C=0.01,
-                          tolerance=0.1,
-                          max_iters=1000,
-                          reg="None",
-                          lr=0.001,
-                          params=nothing,
-                          errors=nothing)
-    if params == nothing
-        params = randn(1)
-    end
-    if errors == nothing
-        errors = randn(1)
-    end
-    return LogisticRegression(C,reg,lr,tolerance,max_iters,params,errors)
+    function LogisticRegression(;
+                                C=0.01,
+                                tolerance=0.1,
+                                max_iters=1000,
+                                reg="None",
+                                lr=0.001,
+                                params=nothing,
+                                errors=nothing)
+    if params == nothing params = randn() end
+    if errors == nothing errors = randn() end
+    new(C,reg,lr,tolerance,max_iters,params,errors)
+  end
 end
 
 
