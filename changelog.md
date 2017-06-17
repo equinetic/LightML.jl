@@ -28,7 +28,10 @@
         * accuracy (existing, listing it here for a complete list)
 - utils/utils.jl
     * `classify`
+- utils/binning.jl
+    * Convenient discretization of continuous variables
 - Changed "test\_" functions to "demo\_"
+- `demo_*` functions are now accessible by the `demo` function - pass the algorithm name as a symbol and it will map to the appropriate function. e.g. `demo(:HMM)`
 - Began build out of formal tests in /test
 - Removed Gadfly dependency in favor of Plots.jl
 -
