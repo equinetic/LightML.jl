@@ -1,5 +1,5 @@
 
-type randomForest
+type RandomForest
     min_split::Int64
     min_gain::Float64
     max_depth::Integer
@@ -21,11 +21,11 @@ function randomForest(;
     for i = 1:n_estimators
         push!(trees, ClassificationTree(min_gain = min_gain, min_samples_split = min_split, max_depth = max_depth))
     end
-    return randomForest(min_split, min_gain, max_depth, n_estimators, max_features, feature_index, trees)
+    return RandomForest(min_split, min_gain, max_depth, n_estimators, max_features, feature_index, trees)
 end
 
 
-function train!(model::randomForest, X::Matrix, y::Vector)
+function train!(model::RandomForest, X::Matrix, y::Vector)
     n_sample, n_feature = size(X)
     if model.max_features == "nothing"
         model.max_features = trunc(Int64, sqrt(n_feature))
@@ -45,7 +45,7 @@ function train!(model::randomForest, X::Matrix, y::Vector)
     end
 end
 
-function predict(model::randomForest,
+function predict(model::RandomForest,
                  x::Matrix)
     n_sample = size(x,1)
     res = zeros(n_sample, model.n_estimators)
@@ -74,9 +74,9 @@ function predict(model::randomForest,
 end
 
 
-function demo_randomForest()
+function demo_RandomForest()
     X_train, X_test, y_train, y_test = make_iris()
-    model = randomForest()
+    model = RandomForest()
     train!(model,X_train, y_train)
     predictions = predict(model,X_test)
     println("classification accuracy ", accuracy(y_test, predictions))

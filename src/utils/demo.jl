@@ -130,3 +130,36 @@ function demo()
     x2 = X_test[:, 2]
     scatter(x1, x2, color=y_test, title="PCA")
 end
+
+
+function demo(model::Symbol)
+    demos = Dict(
+        :Adaboost => demo_Adaboost,
+        :LinearRegression => demo_LinearRegression,
+        :LogisticRegression => demo_LogisticRegression,
+        :RegressionTree => demo_RegressionTree,
+        :ClassificationTree => demo_ClassificationTree,
+        :GDA => demo_GDA,
+        :GradientBoostingClassifier => demo_GradientBoostingClassifier,
+        :GradientBoostingRegressor => demo_GradientBoostingRegressor,
+        :HMM => demo_HMM,
+        :KnnClassifier => demo_kneast_classification,
+        :KnnRegression => demo_kneast_regression,
+        :LabelPropagation => demo_label_propagation,
+        :LDA => demo_LDA,
+        :LDAReduction => demo_LDA_reduction,
+        :NaiveBayes => demo_naive,
+        :NeuralNetwork => demo_NeuralNetwork,
+        :RandomForest => demo_RandomForest,
+        :SVM => demo_svm,
+        :XGBoost => demo_xgboost,
+        :GaussianMixture => demo_GaussianMixture,
+        :Kmeans => demo_kmeans_random,
+        :KmeansSpeed =>  demo_kmeans_speed,
+        :LSC => demo_LSC,
+        :PCA => demo_PCA,
+        :SpectralCluster => demo_spec_cluster
+    )
+
+    demos[model]()
+end
