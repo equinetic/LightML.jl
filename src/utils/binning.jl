@@ -44,12 +44,12 @@ type Cut
 end
 
 type QuantileBinner <: Binner
-  func::Function
   cuts::Vector{Cut}
 
   function QuantileBinner{T<:Real}(v::AbstractVector{T},
-                                   qt=0:.25:1)
-    new(quantilebin, quantile(v, qt))
+                                   qt=0:.25:1;
+                                   args...)
+    new(getcuts(quantile(v, qt); args...))
   end
 end
 
@@ -60,15 +60,14 @@ function train!{B<:Binner,T<:Real}(Bin::Binner, v::AbstractVector{T})::B
 
 end
 
-function predict{B<:Binner}(
-            Bin::B,
-            v::AbstractVector{T};
+function predict{B<:Binner,T<:Real}(Bin::B, v::AbstractVector{T};
             asinteger::Bool=false,
-            labels::AbstractVector=nothing, args...)::AbstractVector
+            labels::AbstractVector=[],
+            floatprecision=4)::AbstractVector
   binned = cutvar(v, Bin.cuts)
   if asinteger return binned end
-  if labels != nothing return labels[binned] end
-  return labelcuts(Bin.cuts, args...)[binned]
+  if length(labels) == length(Bin.cuts) return labels[binned] end
+  return labelcuts(Bin.cuts, floatprecision=floatprecision)[binned]
 end
 
 
@@ -134,6 +133,18 @@ function incut{T<:Real}(v::T, c::Cut)::Bool
   m[:lb][c.lbb](v, c.lb) && m[:ub][c.ubb](v, c.ub)
 end
 
+function getcuts{T<:Real}(qs::AbstractVector{T};
+                          extendlbound::Bool=true,
+                          extendubound::Bool=true)::Vector{Cut}
+  cuts = Vector{Cut}()
+  for i = 1:(length(qs)-1)
+    lbb = (i==1 && extendlbound) ? :ext : :inc
+    ubb = (i==length(qs)-1 && extendubound) ? :ext : :exc
+    cuts = vcat(cuts, Cut(lbb, qs[i], ubb, qs[i+1]))
+  end
+
+  cuts
+end
 
 function cutvar{T<:Real}(
             v::AbstractVector{T},
@@ -154,12 +165,7 @@ function cut_string(c::Cut)::String
 end
 
 
-function labelcuts(cuts::AbstractVector{Cuts};
+function labelcuts(cuts::AbstractVector{Cut};
                    floatprecision::Int=4)::Vector{String}
-  lbound = string.( round(cuts[1:(end-1)], floatprecision) )
-  ubound = string.( round(cuts[2:end], floatprecision) )
-  labels = Vector{String}()
-  for i in eachindex(lbound)
-    s =
-  end
+  [cut_string(c) for c in cuts]
 end
