@@ -4,14 +4,14 @@ module LightML
 
 using   Plots,
         DataFrames,
-        ForwardDiff,
+        ForwardDiff,    # Remove this
         Distributions,
-        PyCall,
+        PyCall,         # Remove this
         DataStructures,
         Distances,
         Clustering,
 
-@pyimport sklearn.datasets as dat
+@pyimport sklearn.datasets as dat   # Remove this
 pyplot()
 
 
@@ -133,40 +133,13 @@ export
     demo_randomForest
 
 
-#Supervised_learning
-include("supervised_learning/baseRegression.jl")
-include("supervised_learning/decisionTree.jl")
-include("supervised_learning/gaussianDiscriminantAnalysis.jl")
-include("supervised_learning/hiddenMarkovModel.jl")
-include("supervised_learning/kNearestNeighbors.jl")
-include("supervised_learning/labelPropagation.jl")
-include("supervised_learning/linearDiscriminantAnalysis.jl")
-include("supervised_learning/naivdBayes.jl")
-include("supervised_learning/neuralNetwork_bp.jl")
-include("supervised_learning/support_vector_machine.jl")
-include("supervised_learning/adaboost.jl")
-include("supervised_learning/randomForests.jl")
-include("supervised_learning/xgboost.jl")
-include("supervised_learning/GradientBoostingTree.jl")
-
-
-#Unsupervised_learning
-include("unsupervised_learning/gaussianMixtureModel.jl")
-include("unsupervised_learning/kMeans.jl")
-include("unsupervised_learning/principalComponentAnalysis.jl")
-include("unsupervised_learning/spectralCluster.jl")
-include("unsupervised_learning/largeScaleSpectralClustering.jl")
-
-#Utils
-include("utils/classification_eval.jl")
-include("utils/demo.jl")
-include("utils/eval.jl")
-include("utils/partitioning.jl")
-include("utils/plot_utils.jl")
-include("utils/scaling.jl")
-include("utils/utils.jl")
-
-
-
+# Include components
+include(joinpath("data", "data.jl"))
+include(joinpath("loss_functions", "loss_functions.jl"))
+include(joinpath("model_evaluation", "model_evaluation.jl"))
+include(joinpath("solvers", "solvers.jl"))
+include(joinpath("supervised_learning", "supervised_learning.jl"))
+include(joinpath("unsupervised_learning", "unsupervised_learning.jl"))
+include(joinpath("utils", "utils.jl"))
 
 end

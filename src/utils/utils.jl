@@ -1,3 +1,10 @@
+# Utilities
+include("utils/demo.jl")
+include("utils/partitioning.jl")
+include("utils/plot_utils.jl")
+include("utils/scaling.jl")
+include("utils/utils.jl")
+
 # ========================
 # Data Generation
 # ========================

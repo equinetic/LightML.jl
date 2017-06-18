@@ -67,7 +67,7 @@ Feel free to use the [frame.jl](src/utils/frame.jl) to develop your version of M
 - [ ] Add binning utility & type
   - **Capabilities**
     - [ ] Store into a `Binner` type for application across partitions
-    - [ ] Ability to extract bin-level statistics, such as median or mean.
+    - [ ] Ability to extract bin-level statistics, such as median or mean. Possibly do this by extended `Base`
   - **Binners**
     - [ ] Quantile binner (quartiles)
     - [ ] Numeric binner (manual cut poins)
