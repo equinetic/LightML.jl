@@ -11,6 +11,9 @@
 # ========================
 abstract Binner
 
+"""
+XYZ
+"""
 type Cut
   lbb::Symbol
   lb
@@ -43,6 +46,12 @@ type Cut
 
 end
 
+"""
+QuantileBinner
+
+Cuts a vector into quantiles of equal length. Defaults
+to quartiles (0% : 25% : 100%).
+"""
 type QuantileBinner <: Binner
   cuts::Vector{Cut}
 
@@ -53,6 +62,90 @@ type QuantileBinner <: Binner
   end
 end
 
+"""
+NumericBinner
+
+Cuts a vector given manual specifications.
+
+Example:\n
+```julia
+NumericBinner([1, 10, 30, 50])
+NumericBinner("{1,10)[10,30)[30,50}")
+```
+"""
+type NumericBinner <: Binner
+  cuts::Vector{Cut}
+
+  function NumericBinner{T<:Real}(v::AbstractVector{T}; args...)
+    new(getcuts(v; args...))
+  end
+
+  function NumericBinner(c::AbstractString)
+    new(parsecuts(c))
+  end
+end
+
+"""
+FrequencyBinner
+
+Choose cuts that equalizes frequency per bin with
+respect to some other reference variable(s).
+"""
+type FrequencyBinner <: Binner
+  cuts::Vector{Cut}
+
+  function FrequencyBinner(ncuts::Int, ref::AbstractVecOrMat)
+
+  end
+end
+
+"""
+XYZ
+"""
+type RankBinner <: Binner
+  cuts::Vector{Cut}
+
+  function RankBinner()
+
+  end
+end
+
+"""
+FunctionalBinner
+
+Pass a custom anonymous function that returns the integer bin on a single
+value.
+
+Example:\n
+```julia
+FunctionalBinner(v, x->trunc(Int, floor(log(x))))
+```
+"""
+type FunctionalBinner <: Binner
+  cuts::Vector{Cut}
+  func::Function
+
+  function FunctionalBinner{T<:Real}(v::AbstractVector{T},
+                                     func::Function; encode=false)
+
+  end
+end
+
+"""
+EntropyBinner
+
+Choose cuts that minimizes entropy (i.e. maximizes information gain)
+with respect to some other dependent variable(s).
+"""
+type EntropyBinner <: Binner
+  cuts::Vector{Cut}
+
+  function EntropyBinner()
+
+  end
+end
+
+
 # ========================
 # API
 # ========================
@@ -61,13 +154,13 @@ function train!{B<:Binner,T<:Real}(Bin::Binner, v::AbstractVector{T})::B
 end
 
 function predict{B<:Binner,T<:Real}(Bin::B, v::AbstractVector{T};
-            asinteger::Bool=false,
+            asint::Bool=false,
             labels::AbstractVector=[],
-            floatprecision=4)::AbstractVector
+            fprec=16)::AbstractVector
   binned = cutvar(v, Bin.cuts)
-  if asinteger return binned end
+  if asint return binned end
   if length(labels) == length(Bin.cuts) return labels[binned] end
-  return labelcuts(Bin.cuts, floatprecision=floatprecision)[binned]
+  return labelcuts(Bin.cuts, fprec=fprec)[binned]
 end
 
 
@@ -75,12 +168,14 @@ end
 #
 # ========================
 
-function parsecut(c::String)::Cut
-  errmsg = "Improper cut formatting"
+# xyz
+function parsecut(c::AbstractString)::Cut
   p_linc = r"^\["; p_uinc = r"\]$"
   p_lexc = r"^\("; p_uexc = r"\)$"
   p_lext = r"^\{"; p_uext = r"\}$"
   pnum = r"[0-9](\.[0-9])?"
+
+  c = replace(c, " ", "")
 
   # Lowerbound bracket
   lbb = nothing
@@ -91,7 +186,7 @@ function parsecut(c::String)::Cut
   elseif ismatch(p_lext, c)
     lbb = :ext
   end
-  if lbb == nothing throw(errmsg) end
+  if lbb == nothing throw("Unrecognized lowerbound bracket") end
 
   # Upperbound bracket
   ubb = nothing
@@ -102,18 +197,20 @@ function parsecut(c::String)::Cut
   elseif ismatch(p_uext, c)
     ubb = :ext
   end
-  if ubb == nothing throw(errmsg) end
+  if ubb == nothing throw("Unrecognized upperbound bracket") end
 
   # Numbers
-  num = [parse(x.match) for x in eachmatch(pnum, c)]
-  if length(num) != 2 throw(errmsg) end
+  s = split(c, ",")
+  if length(s) != 2 throw("Numeric pattern not found in string") end
+  num = (parse(s[1][2:end]), parse(s[2][1:(end-1)]))
 
   Cut(lbb, num[1], ubb, num[2])
 
 end
 
+# xyz
 function parsecuts(c::String)::Vector{Cut}
-  const pcut = r"([\{\[\(])([0-9](\.[0-9])?).?([0-9](\.[0-9])?)([\}\]\)])"
+  pcut = r"[\{\[\(][0-9]+(\.[0-9])*,[0-9]+(\.[0-9])*[\}\]\)]"
   cuts = Vector{Cut}()
 
   for m in eachmatch(pcut, c)
@@ -124,6 +221,7 @@ function parsecuts(c::String)::Vector{Cut}
 
 end
 
+# xyz
 function incut{T<:Real}(v::T, c::Cut)::Bool
   m = Dict(
     :lb => Dict(:inc => >=, :exc => >),
@@ -133,9 +231,16 @@ function incut{T<:Real}(v::T, c::Cut)::Bool
   m[:lb][c.lbb](v, c.lb) && m[:ub][c.ubb](v, c.ub)
 end
 
+# xyz
 function getcuts{T<:Real}(qs::AbstractVector{T};
+                          asymptotic::Bool=true,
                           extendlbound::Bool=true,
                           extendubound::Bool=true)::Vector{Cut}
+  if asymptotic==false
+    extendlbound = false
+    extendubound = false
+  end
+
   cuts = Vector{Cut}()
   for i = 1:(length(qs)-1)
     lbb = (i==1 && extendlbound) ? :ext : :inc
@@ -146,6 +251,7 @@ function getcuts{T<:Real}(qs::AbstractVector{T};
   cuts
 end
 
+# xyz
 function cutvar{T<:Real}(
             v::AbstractVector{T},
             cuts::AbstractVector{Cut})::Vector{Int}
@@ -158,14 +264,24 @@ function cutvar{T<:Real}(
   return ind
 end
 
-function cut_string(c::Cut)::String
+# xyz
+function cut_string(c::Cut; fprec::Int=16)::AbstractString
   lbb = c.lbb == :inc ? "[" : "("
   ubb = c.ubb == :inc ? "]" : ")"
-  return string(lbb, c.lb, ",", c.ub, ubb)
+  return string(lbb, round(c.lb, fprec), ",", round(c.ub, fprec), ubb)
 end
 
+# xyz
+function cut_string(cutvec::Vector{Cut}; fprec::Int=16)::AbstractString
+  s = ""
+  for cut in cutvec
+    s = string(s, cut_string(cut, fprec=fprec))
+  end
+  s
+end
 
+# xyz
 function labelcuts(cuts::AbstractVector{Cut};
-                   floatprecision::Int=4)::Vector{String}
-  [cut_string(c) for c in cuts]
+                   fprec::Int=16)::Vector{String}
+  [cut_string(c, fprec=fprec) for c in cuts]
 end

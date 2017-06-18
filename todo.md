@@ -68,9 +68,10 @@ Feel free to use the [frame.jl](src/utils/frame.jl) to develop your version of M
   - **Capabilities**
     - [x] Store into a `Binner` type for application across partitions
     - [ ] Ability to extract bin-level statistics, such as median or mean. Possibly do this by extended `Base`
+    - [ ] Default handling for non-binnable values. This will occur when the cut anchors are non-asymptotic and the value is more extreme than what was observed in the training set.
   - **Binners**
     - [x] Quantile binner (quartiles)
-    - [ ] Numeric binner (manual cut poins)
+    - [x] Numeric binner (manual cut poins)
     - [ ] Frequency binner (K groups with approximately equal frequency)
     - [ ] Rank binner (incremental)
     - [ ] Functional binner (anonymous function). Example given was `FLOOR(LOG(X))`
