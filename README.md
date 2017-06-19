@@ -12,14 +12,13 @@ In short, I believe LightML should fulfill the following two needs:
 2. Packing the above in structured, readable, and well-documented code to aide (human) learners.
 
 #### Initial Release / Pull Request
-* Broadly restructure memoiry's code base for purposes of extending current capabilities and enabling modularity of the algorithms
-* Eliminate extraneous dependencies to keep LightML...lite. Most of these needs had already been identified by memoiry.
-* Significantly expand the "utilities" section:
-    * Improved partitioning
+* Restructure sections of code base for purposes of extending current capabilities and to make the algorithms more modular.
+* Eliminate unnecessary dependencies to keep LightML light. Most of these needs had already been identified by memoiry - PyCall, ForwardDiff, etc.
+* Expand the "utilities" section:
     * Feature scaling
     * Binning
     * Plot recipes
-* Significantly expand model evaluation:
+* Expand model evaluation:
     * Classification - ROC curves, confusion matrices, every specificity/sensitivity/true-positive-rate type of metric you can think of
     * Similar build out for non classification models
     * Learning curves
