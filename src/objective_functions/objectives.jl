@@ -1,8 +1,4 @@
-# ========================
-# Model Evaluation
-# ========================
 
-# ------ Distance Based ------
 function absolute_error(actual, predicted)
     return abs(actual - predicted)
 end
@@ -50,11 +46,6 @@ function binary_crossentropy(actual, predicted)
     return mean(-sum(actual .* log(predicted) -
                            (1 - actual) .* log(1 - predicted)))
 end
-
-
-
-
-
 
 function calc_variance(X)
     n_sample = size(X,1)

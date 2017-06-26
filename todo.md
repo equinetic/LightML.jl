@@ -24,6 +24,9 @@ There are implementation not working as expected, so further debug is needed.
 
 Feel free to use the [frame.jl](src/utils/frame.jl) to develop your version of ML algorithm.
 
+#### 6/26 Notes
+Due to design goals it seems like that most implemented algorithms will be rebuilt. Current development plans will continue with this in mind, and as such the direction is now for a separate release with credits/contribution given to LightML.
+
 #### PR Milestone
 
 - [ ] Eliminate ForwardDiff dependency, this involves linear regression code and should be easy to do.
