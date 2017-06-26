@@ -14,7 +14,7 @@
 Generates most of the classification statistics available
 in this package.
 """
-immutable ClassificationStatistics
+struct ClassificationStatistics
     tp::Int
     fp::Int
     tn::Int
@@ -90,7 +90,7 @@ end
 """
 `ConfusionMatrix`
 """
-immutable ConfusionMatrix
+struct ConfusionMatrix
     tp::Int
     fp::Int
     tn::Int
@@ -115,7 +115,7 @@ ROC Curve
 
 
 """
-immutable ROCCurve
+struct ROCCurve
     charX::Function=false_positive_rate
     charY::Function=true_positive_rate
     x_vals::Vector{AbstractFloat}

@@ -108,7 +108,7 @@ export
         sensitivity,
         tpr,
 
-    # Education Functions
+    # Demos
     demo_LinearRegression,
     demo_LogisticRegression,
     demo_ClassificationTree,
@@ -135,8 +135,8 @@ export
 
 # Include components
 include(joinpath("data", "data.jl"))
-include(joinpath("loss_functions", "loss_functions.jl"))
 include(joinpath("model_evaluation", "model_evaluation.jl"))
+include(joinpath("objective_functions", "objective_functions.jl"))
 include(joinpath("solvers", "solvers.jl"))
 include(joinpath("supervised_learning", "supervised_learning.jl"))
 include(joinpath("unsupervised_learning", "unsupervised_learning.jl"))

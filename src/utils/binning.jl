@@ -14,7 +14,7 @@ abstract Binner
 """
 XYZ
 """
-type Cut
+struct Cut
   lbb::Symbol
   lb
   ubb::Symbol
@@ -52,7 +52,7 @@ QuantileBinner
 Cuts a vector into quantiles of equal length. Defaults
 to quartiles (0% : 25% : 100%).
 """
-type QuantileBinner <: Binner
+struct QuantileBinner <: Binner
   cuts::Vector{Cut}
 
   function QuantileBinner{T<:Real}(v::AbstractVector{T},
@@ -73,7 +73,7 @@ NumericBinner([1, 10, 30, 50])
 NumericBinner("{1,10)[10,30)[30,50}")
 ```
 """
-type NumericBinner <: Binner
+struct NumericBinner <: Binner
   cuts::Vector{Cut}
 
   function NumericBinner{T<:Real}(v::AbstractVector{T}; args...)
@@ -91,7 +91,7 @@ FrequencyBinner
 Choose cuts that equalizes frequency per bin with
 respect to some other reference variable(s).
 """
-type FrequencyBinner <: Binner
+struct FrequencyBinner <: Binner
   cuts::Vector{Cut}
 
   function FrequencyBinner(ncuts::Int, ref::AbstractVecOrMat)
@@ -102,7 +102,7 @@ end
 """
 XYZ
 """
-type RankBinner <: Binner
+struct RankBinner <: Binner
   cuts::Vector{Cut}
 
   function RankBinner()
@@ -121,7 +121,7 @@ Example:\n
 FunctionalBinner(v, x->trunc(Int, floor(log(x))))
 ```
 """
-type FunctionalBinner <: Binner
+struct FunctionalBinner <: Binner
   cuts::Vector{Cut}
   func::Function
 
@@ -137,7 +137,7 @@ EntropyBinner
 Choose cuts that minimizes entropy (i.e. maximizes information gain)
 with respect to some other dependent variable(s).
 """
-type EntropyBinner <: Binner
+struct EntropyBinner <: Binner
   cuts::Vector{Cut}
 
   function EntropyBinner()

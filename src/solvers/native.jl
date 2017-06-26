@@ -1,11 +1,17 @@
-function gradient_descent!{T<:Real}(θ::AbstractVector{T},    # Weights
-                                    X::AbstractVecOrMat{T},  # Features
-                                    y::AbstractVecOrMat{T},  # Correct values
-                                    J::Function;             # Cost function
-                                    α::AbstractFloat=1e-9,   # Learn rate
-                                    λ::AbstractFloat=0.00,   # Regularization
-                                    tol::AbstractFloat=1e-4  # Delta tolerance
-                                    maxIter::Int=1000)::AbstractVector{T}
+# TODO:
+#  - I think regularization would be better defined in
+#    the actual objective functions. Maybe gradient_descent
+#    can simply take a tuple of options or something like that 
+
+function gradient_descent!(θ::AbstractVector{T},      # Weights
+                            X::AbstractVecOrMat{T},   # Features
+                            y::AbstractVecOrMat{T},   # Correct values
+                            J::Function;              # Cost function
+                            α::AbstractFloat=1e-9,    # Learn rate
+                            λ::AbstractFloat=0.00,    # Penalty term
+                            f::Function=L2_regularize,# Regularize function
+                            tol::AbstractFloat=1e-4   # Delta tolerance
+                            maxIter::Int=1000)::AbstractVector{T} where T<:Real
   ϵ = 0.00     # current error
   δ = 1.e10    # change in error
   n = 0        # iteration count

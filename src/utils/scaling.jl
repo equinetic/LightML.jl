@@ -1,6 +1,6 @@
 # TODO: use typealias Union{} for ::ScalerParams, :Scaler etc.
 
-type FeatureScaler
+struct FeatureScaler
     scalefun
     params
 end
@@ -25,7 +25,7 @@ end
 
 # ++++++ Standardize +++++++
 
-type StandardizeParams
+struct StandardizeParams
     μ::AbstractFloat
     σ::AbstractFloat
 end
@@ -58,7 +58,7 @@ end
 
 # ++++++ Rescale +++++++
 
-type RescaleParams{T}
+struct RescaleParams{T}
     xmin::T
     xmax::T
 end
@@ -91,7 +91,7 @@ end
 
 # ++++++ Unit Length +++++++
 
-type UnitLengthParams
+struct UnitLengthParams
     euclidlength::Int
 end
 
