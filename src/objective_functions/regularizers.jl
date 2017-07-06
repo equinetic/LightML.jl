@@ -11,12 +11,10 @@ struct L1_Reg
   λ::AbstractFloat
   f::Function
   HasIntercept::Bool
-
   function L1_Reg(λ::AbstractFloat=0.,
                   HasIntercept::Bool=false)
     new(λ, L1_regularize, HasIntercept)
   end
-
 end
 
 function L1_regularize(θ::AbstractVector,
@@ -40,12 +38,10 @@ struct L2_Reg
   λ::AbstractFloat
   f::Function
   HasIntercept::Bool
-
   function L2_Reg(λ::AbstractFloat=0.,
                   HasIntercept::Bool=false)
     new(λ, L2_regularize, HasIntercept)
   end
-
 end
 
 function L2_regularize(θ::AbstractVector,

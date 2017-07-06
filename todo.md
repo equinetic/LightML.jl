@@ -27,10 +27,11 @@ Feel free to use the [frame.jl](src/utils/frame.jl) to develop your version of M
 #### 6/26 Notes
 Due to design goals it seems like that most implemented algorithms will be rebuilt. Current development plans will continue with this in mind, and as such the direction is now for a separate release with credits/contribution given to LightML.
 
-#### PR Milestone
+#### 0.1 Milestone
 
 - [ ] Eliminate ForwardDiff dependency, this involves linear regression code and should be easy to do.
 - [ ] Eliminate PyCall dependency, this involves eliminating the dependency on python scikit-learn's datasets for testing purpose.
+  - [ ] Use RDatasets instead
 - [x] Add ROC statistic calculations to utils
   - 6-6-17: Added many more error calculations as well
 - [x] Remove Gadfly in lieu of Plots
@@ -84,6 +85,7 @@ Due to design goals it seems like that most implemented algorithms will be rebui
 - [ ] Algorithms
   - [ ] Linear Regression
     - [ ] Gradient is different for the intercept term
+- [ ] Explore use of `@parallel`, distributed arrays, etc
 
 # Long Term
 - [ ] Create extension, wrapper, etc for `lab_` styled functions. This will align with the yet to be created REPLab.jl

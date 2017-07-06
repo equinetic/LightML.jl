@@ -3,7 +3,7 @@ mutable struct LinearRegression <: Model
   obj::Function
   reg
   function LinearRegression(wts::AbstractVector=[],
-                            obj::Function=mean_squared_error,
+                            obj::Function=L2,
                             reg=nothing)
     new(wts, obj, reg)
   end

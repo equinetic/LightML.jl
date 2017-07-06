@@ -9,7 +9,7 @@
 # ========================
 # Variable Binning
 # ========================
-abstract Binner
+abstract type Binner end
 
 """
 XYZ
@@ -100,7 +100,7 @@ struct FrequencyBinner <: Binner
 end
 
 """
-XYZ
+RankBinner
 """
 struct RankBinner <: Binner
   cuts::Vector{Cut}
@@ -154,13 +154,13 @@ function train!{B<:Binner,T<:Real}(Bin::Binner, v::AbstractVector{T})::B
 end
 
 function predict{B<:Binner,T<:Real}(Bin::B, v::AbstractVector{T};
-            asint::Bool=false,
+            as_int::Bool=false,
             labels::AbstractVector=[],
-            fprec=16)::AbstractVector
+            float_prec=16)::AbstractVector
   binned = cutvar(v, Bin.cuts)
-  if asint return binned end
+  if as_int return binned end
   if length(labels) == length(Bin.cuts) return labels[binned] end
-  return labelcuts(Bin.cuts, fprec=fprec)[binned]
+  return labelcuts(Bin.cuts, fprec=float_prec)[binned]
 end
 
 
