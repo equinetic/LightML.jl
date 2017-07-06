@@ -1,3 +1,20 @@
+# New schema
+abstract type Objective end
+
+struct L1 <: Objective end
+cost(obj::L1, y, ŷ) = abs.(y .- ŷ)
+grad(obj::L1, y, ŷ) = y .- ŷ
+
+struct L2 <: Objective end
+cost(obj::L2, y, ŷ) = (y .- ŷ) .^ 2
+grad(obj::L2, y, ŷ) = 2(y .- ŷ)
+
+
+
+# Old functions
+function mean_squared_error(actual, predicted)
+    mean(squared_error(actual, predicted))
+end
 
 function absolute_error(actual, predicted)
     return abs(actual - predicted)
@@ -19,9 +36,7 @@ function mean_squared_log_error(actual, predicted)
     return mean(squared_log_error(actual, predicted))
 end
 
-function mean_squared_error(actual, predicted)
-    return mean(squared_error(actual, predicted))
-end
+
 
 function root_mean_squared_error(actual, predicted)
     return sqrt(mean_squared_error(actual, predicted))

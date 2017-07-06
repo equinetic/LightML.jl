@@ -132,6 +132,8 @@ export
     demo_BoostingTree,
     demo_randomForest
 
+# Abstracts
+abstract type Model end
 
 # Include components
 include(joinpath("data", "data.jl"))

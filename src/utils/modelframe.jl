@@ -1,7 +1,7 @@
 # ========================
 # Type Definition
 # ========================
-type ModelName
+struct ModelName
 
 end
 
@@ -35,7 +35,7 @@ end
 # ========================
 # Demo
 # ========================
-function test_ModelName()
+function demo_ModelName()
     X_train, X_test, y_train, y_test = make_cla()
     model = ModelName()
     train!(model,X_train, y_train)

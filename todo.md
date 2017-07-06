@@ -81,7 +81,9 @@ Due to design goals it seems like that most implemented algorithms will be rebui
     - [ ] Entropy binner (supervised)
 - [ ] Add a pipeline capability
 - [ ] Establish a readthedocs
-
+- [ ] Algorithms
+  - [ ] Linear Regression
+    - [ ] Gradient is different for the intercept term
 
 # Long Term
 - [ ] Create extension, wrapper, etc for `lab_` styled functions. This will align with the yet to be created REPLab.jl
