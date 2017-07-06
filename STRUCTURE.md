@@ -3,6 +3,7 @@
 ```
 src/
   data
+  examples
   supervised_learning
     algorithms...
   unsupervised_learning
